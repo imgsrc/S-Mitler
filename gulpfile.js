@@ -29,20 +29,24 @@ gulp.task('common-js', function() {
 	return gulp.src([
 		'app/js/common.js',
 		])
-	.pipe(concat('common.min.js'))
-	.pipe(uglify())
-	.pipe(gulp.dest('app/js'));
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(concat('common.min.js'))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('../js'))
+    .pipe(gulp.dest('app/js'));
 });
 
 gulp.task('scripts', ['common-js'], function () {
   return gulp.src([
     'node_modules/jquery/dist/jquery.js',
     'node_modules/jquery-migrate/dist/jquery-migrate.js',
-    'node_modules/jquery.equalheights/jquery.equalheights.js',
-    'app/js/common.min.js' // Всегда в конце
+    'node_modules/jquery.mmenu/dist/jquery.mmenu.js',
+    'node_modules/jquery.equalheights/jquery.equalheights.js'
   ])
+    .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(concat('scripts.min.js'))
       .pipe(uglify())
+      .pipe(sourcemaps.write('../js'))
       .pipe(gulp.dest('app/js'))
       .pipe(browserSync.reload({stream: true}));
 });
